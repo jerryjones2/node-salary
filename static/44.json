@@ -1,0 +1,23 @@
+{
+    "Unit": {
+        "UnitId": 44,
+        "UnitName": "Athens",
+        "ParentUnitId": 3,
+        "UnitLevel": 2,
+        "Address": "150 Plaza Circle\r\nAthens, TN 37303",
+        "OfficePhone": "",
+        "OfficeHours": "08:30 AM - 05:00 PM",
+        "Description": "Full Service Station",
+        "OfficeStatus": "Closed",
+        "MaxWT": "0:00:00",
+        "AvgWT": "0:00:00",
+        "MaxST": "0:00:00",
+        "AvgST": "0:00:00",
+        "WaitingCount": 0,
+        "TotalServed": 116,
+        "WTAlertLevel": 0,
+        "STAlertLevel": 0,
+        "InitialWT": "0:00:00",
+        "TotalTime": "0:00:00"
+    }
+}

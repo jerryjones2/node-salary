@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <title>{{pageTitle}}</title>
+        {{> head}}
+
+    </head>
+    <body>
+        {{> header}}
+        <div class="container-fluid">
+            {{> navbar}}
+
+            <!-- Begin Page Title Component -->
+            <div class="tn-pagetitle">
+                <h1>{{pageTitle}}</h1>
+            </div>
+
+            {{{ body }}}
+            
+        </div>
+
+        {{> footer}}
+    </body>
+</html>

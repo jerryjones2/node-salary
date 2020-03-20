@@ -1,0 +1,64 @@
+<script src="/js/salary.js"></script>
+
+<div class="tn-panel">
+    <div class="alert alert-secondary" role="alert">
+        <div class="panel">
+
+                <form id="main-form" action="#">
+                    <div class="row">
+                        <div class="col-sm-4 col-xl-5">
+                            <div class="form-group">
+                                <input id="firstName" class="form-control" name="firstName" type="text" class="required" placeholder="First Name">  
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-5">
+                            <div class="form-group">
+                                <input id="lastName" class="form-control" name="lastName" type="text" class="required" placeholder="Last Name">  
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-xl-5">
+                            <div class="form-group">
+                                <div class="typeahead__container">
+                                    <div class="typeahead__field">
+                                        <div class="typeahead__query">
+                                            <input class="js-typeahead-jobTitle" name="jobTitle" placeholder="Job Titles" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-5">
+                            <div class="form-group">
+                                <select class="custom-select" id="agencyName" name="agencyName">
+                                    <option selected></option>
+                                    <option value="NotLoaded">Values Not Loaded</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 col-xl-2">
+                            <button id="submit" type="button" class="btn btn-primary">Search</button>
+                            <button id="clear"  type="button" class="btn btn-info">Clear</button>
+                        </div>
+
+                    </div>
+                </form>
+                
+
+        </div>
+    </div>
+
+
+    <table id="dataTable" class="display" style="width:100%">
+        <thead>
+            <tr><th>Agency Name</th><th>Last Name</th><th>First Name</th><th>Job Title</th><th>Compensation Rate</th><th>Compensation Rate Period</th><th>Full/Part</th></tr>
+        </thead>
+        <tfoot>
+            <tr><th>Agency Name</th><th>Last Name</th><th>First Name</th><th>Job Title</th><th>Compensation Rate</th><th>Compensation Rate Period</th><th>Full/Part</th></tr>
+        </tfoot>
+    </table>
+
+</div>

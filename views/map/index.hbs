@@ -1,0 +1,233 @@
+<!--
+https://leafletjs.com/examples/mobile/
+
+https://github.com/tegansnyder/Leaflet-Lazy-Loading-Markers-Ajax/blob/master/index.html
+https://www.wrld3d.com/wrld.js/latest/docs/examples/adding-a-leaflet-marker-with-popup/
+
+https://material.io/resources/icons/?style=baseline
+
+-->
+
+ 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin="*"></script>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+<style>
+    .my-class {
+        height:140px;
+        width:280px;
+    }
+    .leaflet-popup-content { 
+     width:auto !important; 
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    #map {
+        width: 600px;
+        height: 400px;
+    }
+
+	body { padding: 0; margin: 0; } #map { height: 100%; width: 100vw; }
+
+    .marker-person-pin {
+        width: 30px;
+        height: 30px;
+        border-radius: 50% 50% 50% 0;
+        background: #black;
+        position: absolute;
+        transform: rotate(-45deg);
+        left: 50%;
+        top: 50%;
+        margin: -15px 0 0 -15px;
+    }
+    .marker-person-pin::after {
+        content: '';
+        width: 24px;
+        height: 24px;
+        margin: 3px 0 0 3px;
+        background: #fff;
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    .marker-pin {
+        width: 30px;
+        height: 30px;
+        border-radius: 50% 50% 50% 0;
+        background: #4838cc;
+        position: absolute;
+        transform: rotate(-45deg);
+        left: 50%;
+        top: 50%;
+        margin: -15px 0 0 -15px;
+    }
+
+    .marker-pin::after {
+        content: '';
+        width: 24px;
+        height: 24px;
+        margin: 3px 0 0 3px;
+        background: #fff;
+        position: absolute;
+        border-radius: 50%;
+    }
+    .custom-div-icon i {
+        position: absolute;
+        width: 22px;
+        font-size: 22px;
+        left: 0;
+        right: 0;
+        margin: 10px auto;
+        text-align: center;
+    }
+
+    .custom-div-icon i.awesome {
+        margin: 12px auto;
+        font-size: 17px;
+    }
+</style>
+
+<div id="map" style="width: 800px; height: 400px;"></div>
+
+<script>
+	var map = L.map('map').fitWorld();
+    //var map = L.map('mapid').setView([36.1627, -86.7816], 7);
+    //let accessToken='pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';  //from example
+    let accessToken='pk.eyJ1IjoiamVycnlqb25lcyIsImEiOiJjazc0djZxOGUwazJpM2ZxdDdrcmM4ODM5In0.GIPECE49mqO458AzCz6EfQ';  //mine
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
+    , {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: `${accessToken}`
+    }).addTo(map);
+
+	function onLocationFound(e) {
+		let radius = e.accuracy / 2;
+        
+        let icon = L.divIcon({
+                        className: 'custom-div-icon',
+                html: "<div style='background-color:blue;' class='marker-person-pin'></div><i class='material-icons'>person_pin</i>",
+                iconSize: [30, 42],
+                iconAnchor: [15, 42]
+        });
+
+
+		L.marker(e.latlng,{
+            icon:icon
+        }).addTo(map).bindPopup("You are within " + radius + " meters from this point"); //.openPopup();
+
+    /*
+		L.circle(e.latlng, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 1000
+        }).addTo(map);
+    */
+
+	}
+
+	function onLocationError(e) {
+		//alert(e.message);
+        map.setView([36.1627, -86.7816], 7);
+	}
+
+	map.on('locationfound', onLocationFound);
+	map.on('locationerror', onLocationError);
+
+	map.locate({setView: true, maxZoom: 9});
+
+    var marker, popupContent;
+
+    let icon;
+
+    let iconOpen = L.divIcon({
+		className: 'custom-div-icon',
+        html: "<div style='background-color:green;' class='marker-pin'></div><i class='material-icons'>directions_car</i>",
+        iconSize: [30, 42],
+        iconAnchor: [15, 42]
+    });
+    let iconClosed = L.divIcon({
+		className: 'custom-div-icon',
+        html: "<div style='background-color:red;' class='marker-pin'></div><i class='material-icons'>directions_car</i>",
+        iconSize: [30, 42],
+        iconAnchor: [15, 42]
+    });
+
+    //$.getJSON("/all.json",function(data){
+    $.getJSON("https://api-dev.tn.gov/IWTWeb/xml_IWT_Stats.aspx?controller=ACF_IWT_UnitsListXML",function(data){
+        var arr = data.Units.Unit;
+        console.log(arr)
+        for (var i = 0; i < arr.length; i++){
+            let record = arr[i];
+            let _unitid = record.UnitId;
+            let _unitName = record.UnitName;
+            let _officeStatus = record.OfficeStatus;
+            if(_officeStatus == 'Open'){
+                icon = iconOpen;
+            }else{
+                icon = iconClosed;
+            }
+
+            marker = L.marker([record.Latitude, record.Longitude]
+                ,{
+    	            icon: icon
+                })
+            .addTo(map);
+
+            marker.bindPopup((layer)=>{
+                var el = document.createElement('div');
+                el.classList.add("my-class");
+
+                //$.getJSON("/44.json",function(data){
+                $.getJSON("https://api-dev.tn.gov/IWTWeb/xml_IWT_Stats.aspx?controller=ACF_IWT_UnitStatsXML&unitid="+_unitid,function(data){
+                    
+                    let timezone = '';
+                    let timezoneName = record.StandardName;
+                    if(timezoneName == 'Eastern Standard Time'){
+                        timezone = 'EST';
+                    }else if(timezoneName == 'Central Standard Time'){
+                        timezone = 'CST';
+                    }else{
+                        timezone = timezoneName;
+                    }
+                    el.innerHTML = 
+                       // '<b>' + data.Unit.UnitName + '</b>' + ' - ' + data.Unit.OfficeStatus + '<br>'
+                        '<b>' + record.UnitName + '</b>' + ' - ' + data.Unit.OfficeStatus + '<br>'
+                        + data.Unit.Description + '<br>'
+                        + '<br>'
+                        + data.Unit.OfficeHours + ' ' + timezone + '<br>'
+                        + data.Unit.Address + '<br>'
+                        + '<br>'
+                        + 'People Waiting: ' + data.Unit.WaitingCount + '<br>'
+                        + 'Current Max Wait Time: ' + data.Unit.MaxWT + '<br>'
+                    ;
+                });
+                return el;
+            });
+            
+        }
+    });
+
+     
+    
+
+</script>
+  
+  
+ 

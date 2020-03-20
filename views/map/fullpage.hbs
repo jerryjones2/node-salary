@@ -1,0 +1,240 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+        <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+            integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+            crossorigin=""/>
+        <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin="*"></script>
+
+        <!--
+            https://material.io/resources/icons/?style=baseline
+        -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- 
+            https://fontawesome.com/ 
+        -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css" rel="stylesheet">
+
+
+        <link rel="stylesheet" href="/markers/leaflet_awesome_number_markers.css" />
+        <script src="/markers/leaflet_awesome_number_markers.js"></script>
+
+    <style>
+        #map {
+            height: 85%;
+        }
+
+        .marker-pin {
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            background: #c30b82;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: 50%;
+            top: 50%;
+            margin: -15px 0 0 -15px;
+        }
+
+        .marker-pin::after {
+            content: '';
+            width: 24px;
+            height: 24px;
+            margin: 3px 0 0 3px;
+            background: #fff;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .custom-div-icon i {
+            position: absolute;
+            width: 22px;
+            font-size: 22px;
+            left: 0;
+            right: 0;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .custom-div-icon i.awesome {
+            margin: 12px auto;
+            font-size: 17px;
+        }
+
+        .my-class {
+            height:140px;
+            width:280px;
+        }
+        .my-class-closed {
+            height:100px;
+            width:280px;
+        }
+
+        .leaflet-popup-content { 
+            width:auto !important; 
+        }
+
+    </style>
+    </head>
+
+
+
+    <body>
+        <div class="alert alert-primary" role="alert">
+            <button type="button" class="btn btn-primary" onclick="window.location.href = '/';">Home</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href = '/map/fullpage';">Refresh</button>
+        </div>
+        
+        <div id="map"></div>
+
+        <script>
+        $( document ).ready(function() {
+            var map = L.map("map");
+            // Map Types
+            // https://leaflet-extras.github.io/leaflet-providers/preview/
+            var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	            attribution: 'Tiles &copy; Esri'
+            });
+            Esri_WorldStreetMap.addTo(map);
+
+            // Initialize map location based on user geo or default
+            function markUserLocation(e) {
+                let radius = e.accuracy / 2;
+                let icon = L.divIcon(
+                    {
+                        className: 'custom-div-icon',
+                        html: "<div style='background-color:blue;' class='marker-person-pin'></div><i class='material-icons'>person_pin</i>",
+                        iconSize: [30, 42],
+                        iconAnchor: [15, 42]
+                    });
+
+                L.marker(e.latlng,{
+                    icon:icon
+                });
+                //.addTo(map)
+                //.bindPopup("You are within " + radius + " meters from this point") 
+                //.openPopup()
+                ;
+
+            }
+            function onLocationFound(e) {
+                map.setView(e.latlng, 10);
+                //markUserLocation(e);
+            }
+            function onLocationError(e) {
+                console.log('No user location available');
+                map.setView([36.1627, -86.7816], 7);
+            }
+            map.on('locationfound', onLocationFound);
+	        map.on('locationerror', onLocationError);
+	        map.locate({setView: true, maxZoom: 9});
+           
+        // 36.1627, -86.7816 Franklin
+        // 35.91759, -86.79652 Downtown
+        // 36.21349, -86.74291 Hart Lane
+        // -----------------------------------------------------
+            function createMarkers() {
+                var icon;
+                
+                var iconOpen = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: "<div style='background-color:green;' class='marker-pin'></div><i class='material-icons'>directions_car</i>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+                var iconClosed = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: "<div style='background-color:blue;' class='marker-pin'></div><i class='material-icons'>directions_car</i>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+
+                //$.getJSON("/all.json",function(data){
+                $.getJSON("/map/stationList.json",function(data){
+                    var arr = data.Units.Unit;
+                    console.log(arr)
+                    for (var i = 0; i < arr.length; i++){
+                        let record = arr[i];
+                        let _unitid = record.UnitId;
+                        let _unitName = record.UnitName;
+                        let _officeStatus = record.OfficeStatus;
+                        let _officeOpen = (_officeStatus == 'Open');
+                        if(_officeStatus == 'Open'){
+                            icon = new L.AwesomeNumberMarkers({
+                                number: _unitid, 
+                                markerColor: "blue"
+                            });
+                        }else{
+                            icon = iconClosed;
+                            
+                        }
+
+                        marker = L.marker([record.Latitude, record.Longitude]
+                            ,{
+                                icon: icon
+                            })
+                        .addTo(map);
+
+                        marker.bindPopup((layer)=>{
+                            var el = document.createElement('div');
+                            if(_officeOpen) {
+                                el.classList.add("my-class");
+                            }else{
+                                el.classList.add("my-class-closed");
+                            }
+
+                            //$.getJSON("/44.json",function(data){
+                            $.getJSON("/map/stationDetail.json?unitid="+_unitid,function(data){
+                                
+                                let timezone = '';
+                                let timezoneName = record.StandardName;
+                                if(timezoneName == 'Eastern Standard Time'){
+                                    timezone = 'EST';
+                                }else if(timezoneName == 'Central Standard Time'){
+                                    timezone = 'CST';
+                                }else{
+                                    timezone = timezoneName;
+                                }
+                                el.innerHTML = 
+                                // '<b>' + data.Unit.UnitName + '</b>' + ' - ' + data.Unit.OfficeStatus + '<br>'
+                                    '<b>' + record.UnitName + '</b>' + ' - ' + data.Unit.OfficeStatus + '<br>'
+                                    + data.Unit.Description + '<br>'
+                                    + '<br>'
+                                    + data.Unit.OfficeHours + ' ' + timezone + '<br>'
+                                    + data.Unit.Address + '<br>'
+                                ;
+                                if(_officeOpen == true) {
+                                    el.innerHTML = el.innerHTML 
+                                    + '<br>'
+                                    + 'People Waiting: ' + data.Unit.WaitingCount + '<br>'
+                                    + 'Current Max Wait Time: ' + data.Unit.MaxWT + '<br>'
+                                }
+                                ;
+                            });
+                            return el;
+                        });
+                        
+                    }
+                });
+            }
+
+            createMarkers();
+            
+        });
+        </script>
+
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    </body>
+</html>

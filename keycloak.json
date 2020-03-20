@@ -1,0 +1,10 @@
+{
+  "realm": "1v2",
+  "auth-server-url": "https://sso.1v2.com/auth",
+  "ssl-required": "none",
+  "resource": "client-1v2",
+  "credentials": {
+    "secret": "31b9faf7-cbba-4aef-b8d6-dff06002a80b"
+  },
+  "confidential-port": 0
+}
