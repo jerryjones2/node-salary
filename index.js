@@ -4,6 +4,8 @@ const app = express()
 //var port = process.env.WWW_NODE_SALARY_SERVICE_PORT || 3000;
 var port = 8080;
 
+console.log(process.env);
+
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
