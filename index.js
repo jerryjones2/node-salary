@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 //var port = process.env.WWW_NODE_SALARY_SERVICE_PORT || 3000;
-var port = 8080;
+var port = process.env.WWW_NODE_SALARY_SERVICE_PORT || 3000;
 
 console.log(process.env);
 
