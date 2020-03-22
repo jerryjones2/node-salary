@@ -3,23 +3,42 @@
     <head>
         
         <title>{{pageTitle}}</title>
-        {{> head}}
+        {{> header}}
 
     </head>
     <body>
-        {{> header}}
+        <!-- -->
         <div class="container-fluid">
+        
+            {{> headerHtml}}
+
             {{> navbar}}
 
-            <!-- Begin Page Title Component -->
-            <div class="tn-pagetitle">
-                <h1>{{pageTitle}}</h1>
-            </div>
-
-            {{{ body }}}
+            <!-- 
+            <div id="bd-wrap" class="container">
+                <div class="container-fluid">
+            -->
             
+                <!--
+                <div class="tn-panel">
+                -->
+                    <div class="tn-pagetitle">
+                        <h1>{{pageTitle}}</h1>
+                    </div>
+                    {{{ body }}}
+                <!--
+                </div>
+                -->
+            <!-- 
+            </div>
+            -->
+            
+            <br/>
+            {{> footerHtml}}
+        <!-- -->
         </div>
-
+        
+         
         {{> footer}}
     </body>
 </html>
