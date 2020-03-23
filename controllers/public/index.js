@@ -12,7 +12,7 @@ function index (req, res) {
 
 function about(req,res) {
     // req.session.test_value = 'newTestValue';
-    let testUrl = 'https://state-of-tennessee-dev.apigee.net/mytn/apigee/ssmsService/message?numberTo=6147837538&messageTest=Hello';
+    let testUrl = 'https://state-of-tennessee-dev.apigee.net/mytn/apigee/ssmsService/message?numberTo=6147837538&messageText=Hello';
         https.get(testUrl, (resp) => {
         let data = '';
 
