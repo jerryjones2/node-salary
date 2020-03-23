@@ -40,7 +40,7 @@ async function about(req,res) {
     }
     res.render('public/about.hbs',
       {
-          pageTitle: 'About Page (' + data + ')',
+          pageTitle: 'About Page ' + data,
           message: 'Session test_value stored at: ' + sessionValue,
           layout: 'main'
       }
