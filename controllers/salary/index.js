@@ -1,5 +1,7 @@
 'use strict';
-const EmployeeSalary = require('../../server/models/EmployeeSalary');
+var mongoose = require('mongoose')
+
+var model = mongoose.model('employee_salaries');
 
 function index (req, res) {
     res.render('salary/index',
@@ -19,7 +21,7 @@ function search (req, res, next) {
         res.status(500).send('Please enter search criteria');
         return
     }
-    EmployeeSalary.find(json, function(err, docs) {
+    model.find(json, function(err, docs) {
         if (!err){ 
             res.json({success : "Found Successfully", status : 200, data: docs});
         } else { 
@@ -30,7 +32,7 @@ function search (req, res, next) {
 }
 
 function distinctJobTitles(req, res, next) {
-    EmployeeSalary.collection.distinct('jobTitle', function(err, docs) {
+    model.collection.distinct('jobTitle', function(err, docs) {
         if (!err){ 
             res.json({success : "Found Successfully", status : 200, data: docs.sort()});
         } else { 
@@ -42,8 +44,9 @@ function distinctJobTitles(req, res, next) {
 
 function distinctAgencyNames(req, res, next) {
 
-    EmployeeSalary.collection.distinct('agencyName', function(err, docs) {
+    model.collection.distinct('agencyName', function(err, docs) {
         if (!err){ 
+            console.log(docs.length)
             res.json({success : "Found Successfully", status : 200, data: docs.sort()});
         } else { 
             console.log('Error')

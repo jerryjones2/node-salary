@@ -24,6 +24,9 @@ function create(config) {
   return mongoose;
 }
 
+// Add Model files here
+require('../../server/models/EmployeeSalary');
+
 module.exports = {
   create
 };

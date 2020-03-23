@@ -35,7 +35,4 @@ const mongoSchema = new Schema({
 });
 
 
-
-const EmployeeSalary = mongoose.model('EmployeeSalary', mongoSchema);
-
-module.exports = EmployeeSalary;
+module.exports = mongoose.model('employee_salaries', mongoSchema);
