@@ -42,7 +42,8 @@ async function about(req,res) {
       {
           pageTitle: 'About Page ' + data,
           message: 'Session test_value stored at: ' + sessionValue,
-          layout: 'main'
+          layout: 'main',
+          pageName: 'about'
       }
   )
 }

@@ -49,14 +49,14 @@
     var digitalData = {
         page: {
             pageInfo: {
-                pageName: "",     //
-                securePage: "",
-                sysEnv: "",
-                deptName: "",
-                siteSection: "",
-                siteSubSection: "",
-                pageType:"",
-                rsidValue: "",
+                pageName: "{{pageName}}",     //
+                securePage: "guest",   // auth guest
+                sysEnv: "", // shows if Desktop or Mobile
+                deptName: "", // Name of the Department, need to get list
+                siteSection: "", // Search
+                siteSubSection: "", // Search Results
+                pageType:"",  // set to 404 if 404 page
+                rsidValue: "", // report suit id, set to: oirtn
                 searchTerm:""
                         
             }

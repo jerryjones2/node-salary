@@ -7,7 +7,8 @@ function index (req, res) {
     res.render('salary/index',
         {
             pageTitle: 'State Employee Salary Search',
-            message: 'Welcome to the Salary App '
+            message: 'Welcome to the Salary App ',
+            pageName: 'search'
         }
     )
 }
