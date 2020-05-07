@@ -76,7 +76,6 @@ var log = require('../config/logger')
         app.use('/foil',foilRoute)
         app.use('/secured',securedRoute)
         app.use('/map',mapRoute)
-
     }
 
     module.exports = {
